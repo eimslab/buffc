@@ -1,6 +1,6 @@
 #ifndef _Included_BUFFC_PACKET_H
 #define _Included_BUFFC_PACKET_H
-#include <iostream>/////////////////
+
 #include <type_traits>
 
 #include <src/utils/typedefine.h>
@@ -11,6 +11,7 @@
 #include "utils/bytes.h"
 #include "utils/md5.h"
 #include "utils/utility.h"
+#include "utils/any.h"
 
 using namespace std;
 using namespace crypt::tea::xtea;
@@ -178,125 +179,7 @@ public:
     }
 
     static uint parseInfo(ubyte* buffer, uint len, string& name, string& method);
-
-//    static Variant[] parse(ubyte[] buffer, ushort magic, CryptType crypt, string key, Nullable!RSAKeyInfo rsaKey, out string name, out string method)
-//    {
-//        assert(buffer != null && buffer.length >= 10, "Incorrect buffer length.");
-//
-//        ushort t_magic;
-//        int t_len;
-//        t_magic = buffer.peek!ushort(0);
-//        t_len = buffer.peek!int(2);
-//
-//        if ((t_magic != magic) || (t_len > buffer.length - 6))
-//            return null;
-//
-//        buffer = buffer[0 .. t_len + 6];
-//        if (strToByte_hex(MD5(buffer[0 .. $ - 2])[0 .. 4]) != buffer[$ - 2 .. $])
-//            return null;
-//
-//        size_t tlv_pos = parseInfo(buffer, name, method);
-//        buffer = buffer[tlv_pos .. $ - 2];
-//
-//        final switch (crypt)
-//        {
-//        case CryptType.NONE:
-//            break;
-//        case CryptType.XTEA:
-//            buffer = Xtea.decrypt(buffer, key);
-//            break;
-//        case CryptType.AES:
-//            buffer = AESUtils.decrypt!AES128(buffer, key);
-//            break;
-//        case CryptType.RSA:
-//            buffer = RSA.decrypt(rsaKey, buffer);
-//            break;
-//        }
-//
-//        ubyte typeId;
-//        int pos;
-//        Variant[] ret;
-//
-//        void get(T)()
-//        {
-//            ret ~= Variant(buffer.peek!T(pos));
-//            pos += T.sizeof;
-//        }
-//
-//        while (pos < buffer.length)
-//        {
-//            typeId = buffer[pos];
-//            pos++;
-//
-//            if (typeId == TypeID!byte)
-//            {
-//                get!byte;
-//            }
-//            else if (typeId == TypeID!ubyte)
-//            {
-//                get!ubyte;
-//            }
-//            else if (typeId == TypeID!short)
-//            {
-//                get!short;
-//            }
-//            else if (typeId == TypeID!ushort)
-//            {
-//                get!ushort;
-//            }
-//            else if (typeId == TypeID!int)
-//            {
-//                get!int;
-//            }
-//            else if (typeId == TypeID!uint)
-//            {
-//                get!uint;
-//            }
-//            else if (typeId == TypeID!long)
-//            {
-//                get!long;
-//            }
-//            else if (typeId == TypeID!ulong)
-//            {
-//                get!ulong;
-//            }
-//            else if (typeId == TypeID!float)
-//            {
-//                get!float;
-//            }
-//            else if (typeId == TypeID!double)
-//            {
-//                get!double;
-//            }
-//            else if (typeId == TypeID!real)
-//            {
-//                //get!real;
-//                ret ~= Variant(ubyteToReal(buffer[pos .. pos + real.sizeof]));
-//                pos += real.sizeof;
-//            }
-//            else if (typeId == TypeID!bool)
-//            {
-//                get!bool;
-//            }
-//            else if (typeId == TypeID!char)
-//            {
-//                get!char;
-//            }
-//            else if (typeId == TypeID!string)
-//            {
-//                int temp = buffer.peek!int(pos);
-//                pos += 4;
-//                ret ~= Variant(cast(string) buffer[pos .. pos + temp]);
-//                pos += temp;
-//            }
-//            else
-//            {
-//                assert(0, "Data types id that are not supported: " ~ typeId.to!string);
-//            }
-//        }
-//
-//        return ret;
-//    }
+    static void parse(vector<Any>& result, ubyte* buffer, uint len, ushort magic, CryptType crypt, const string& key, const RSAKeyInfo& rsaKey, string& name, string& method);
 };
 
 }
