@@ -35,11 +35,10 @@ public:
     }
 
     template <typename T>
-    static T peek(vector<ubyte>& buffer, int offset, int count = -1) {
+    static T peek(ubyte* buffer, int offset, int count = -1) {
         if (offset < 0) {
-            offset = buffer.size();
+            offset = 0;
         }
-        assert(buffer.size() - offset >= sizeof(T));
 
         T t;
         ubyte* p = (ubyte*)&t;

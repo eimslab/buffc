@@ -24,11 +24,10 @@ uint Bytes::write<string>(const string& value, vector<ubyte>& buffer, int offset
 }
 
 template <>
-string Bytes::peek<string>(vector<ubyte>& buffer, int offset, int count) {
+string Bytes::peek<string>(ubyte* buffer, int offset, int count) {
     if (offset < 0) {
-        offset = buffer.size();
+        offset = 0;
     }
-    assert((count >= 0) && (buffer.size() - offset >= count));
 
     ubyte* p = new ubyte[count + 1];
 
@@ -64,11 +63,10 @@ uint Bytes::write<long>(const long& value, vector<ubyte>& buffer, int offset) {
 }
 
 template <>
-long Bytes::peek<long>(vector<ubyte>& buffer, int offset, int count) {
+long Bytes::peek<long>(ubyte* buffer, int offset, int count) {
     if (offset < 0) {
-        offset = buffer.size();
+        offset = 0;
     }
-    assert(buffer.size() - offset >= sizeof(int64));
 
     int64 t;
     ubyte* p = (ubyte*)&t;
@@ -104,11 +102,10 @@ uint Bytes::write<unsigned long>(const unsigned long& value, vector<ubyte>& buff
 }
 
 template <>
-unsigned long Bytes::peek<unsigned long>(vector<ubyte>& buffer, int offset, int count) {
+unsigned long Bytes::peek<unsigned long>(ubyte* buffer, int offset, int count) {
     if (offset < 0) {
-        offset = buffer.size();
+        offset = 0;
     }
-    assert(buffer.size() - offset >= sizeof(uint64));
 
     uint64 t;
     ubyte* p = (ubyte*)&t;

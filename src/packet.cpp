@@ -92,4 +92,22 @@ void Packet::unpacker<const char>(BufferBuilder& bb, const char*& t) {
     bb.put<string>(s, true, true, 4);
 }
 
+uint Packet::parseInfo(ubyte* buffer, uint len, string& name, string& method) {
+    assert(len >= 10);
+
+    ushort len1 = Bytes::peek<ushort>(buffer, 6);
+    if (len1 > 0) {
+        assert(len >= 8 + len1);
+        name = Bytes::peek<string>(buffer, 8, len1);
+    }
+
+    ushort len2 = Bytes::peek<ushort>(buffer, 8 + len1);
+    if (len2 > 0) {
+        assert(len >= 10 + len1 +len2);
+        method = Bytes::peek<string>(buffer, 10 + len1, len2);
+    }
+
+    return 10 + len1 + len2;
+}
+
 }

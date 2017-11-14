@@ -177,31 +177,8 @@ public:
         }
     }
 
-    static uint parseInfo(ubyte* buffer, uint len, string& name, string& method) {
-        assert(len >= 10);
+    static uint parseInfo(ubyte* buffer, uint len, string& name, string& method);
 
-        //Bytes::peek(buffer, offset, count)
-        return 0;
-    }
-//    static size_t parseInfo(ubyte[] buffer, out string name, out string method)
-//    {
-//        assert(buffer != null && buffer.length >= 10, "Incorrect buffer length.");
-//
-//        ushort len1 = buffer.peek!ushort(6);
-//        if (len1 > 0)
-//        {
-//            name = cast(string) buffer[8 .. 8 + len1];
-//        }
-//
-//        ushort len2 = buffer.peek!ushort(8 + len1);
-//        if (len2 > 0)
-//        {
-//            method = cast(string) buffer[10 + len1 .. 10 + len1 + len2];
-//        }
-//
-//        return 10 + len1 + len2;
-//    }
-//
 //    static Variant[] parse(ubyte[] buffer, ushort magic, CryptType crypt, string key, Nullable!RSAKeyInfo rsaKey, out string name, out string method)
 //    {
 //        assert(buffer != null && buffer.length >= 10, "Incorrect buffer length.");
