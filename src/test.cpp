@@ -19,8 +19,8 @@ uint tcpRequestHandler(ubyte* send_buffer, uint send_len, ubyte* receive_buffer)
 
 int main()
 {
-    RSAKeyPair keyPair = RSA::generateKeyPair(256);
-    RSAKeyInfo rsaKey = RSA::decodeKey(keyPair.privateKey);
+//    RSAKeyPair keyPair = RSA::generateKeyPair(256);
+//    RSAKeyInfo rsaKey = RSA::decodeKey(keyPair.privateKey);
 
     Sample sample;
     sample.id = 1;
