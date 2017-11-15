@@ -49,8 +49,8 @@ template <typename T> ubyte TypeID() {
         return 0x20;
     else if (is_same<typename std::decay<T>::type, double> ::value)
         return 0x21;
-//    else if (is_same<typename std::decay<T>::type, real> ::value)
-//        return 0x22;
+    else if (is_same<typename std::decay<T>::type, float128> ::value)
+        return 0x22;
     else if (is_same<typename std::decay<T>::type, bool>   ::value)
         return 0x30;
 //    else if (is_same<typename std::decay<T>::type, char> ::value)

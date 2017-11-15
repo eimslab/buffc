@@ -194,6 +194,9 @@ void Packet::parse(vector<Any>& result, ubyte* buffer, uint len, ushort magic, C
         } else if (typeId == TypeID<double>()) {
             any = Bytes::peek<double>(de, pos);
             pos += sizeof(double);
+        } else if (typeId == TypeID<float128>()) {
+            any = Bytes::peek<float128>(de, pos);
+            pos += sizeof(float128);
         } else if (typeId == TypeID<bool>()) {
             any = Bytes::peek<bool>(de, pos);
             pos += sizeof(bool);

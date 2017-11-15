@@ -5,10 +5,10 @@
 
 namespace buffc {
 
-static ushort       _message_magic;
-static CryptType    _message_crypt;
-static string       _message_key;
-static RSAKeyInfo   _message_rsaKey(BigInt(0), BigInt(0));
+static ushort       _magic;
+static CryptType    _crypt;
+static string       _key;
+static RSAKeyInfo   _rsaKey(BigInt(0), BigInt(0));
 
 class Message {
 
@@ -23,9 +23,9 @@ protected:
     //uint64
     typedef float   float32;
     typedef double  float64;
-    //real
+    //float128(real)
     //bool
-    //char
+    //char(repeated)
     //string
 
 public:
@@ -35,7 +35,7 @@ public:
 
     template <typename... Params>
     static void serialize_without_msginfo(vector<ubyte>& buffer, string method, Params... params) {
-        Packet::build(buffer, _message_magic, _message_crypt, _message_key, _message_rsaKey, "", method, params...);
+        Packet::build(buffer, _magic, _crypt, _key, _rsaKey, "", method, params...);
     }
 
     static void getMessageInfo(ubyte* buffer, uint len, string& name, string& method);
@@ -73,8 +73,8 @@ public:
 protected:
 
     template <typename... Params>
-    void _serialize(vector<ubyte>& buffer, string name, string& method, Params... params) {
-        Packet::build(buffer, _message_magic, _message_crypt, _message_key, _message_rsaKey, name, method, params...);
+    void serialize(vector<ubyte>& buffer, string name, string& method, Params... params) {
+        Packet::build(buffer, _magic, _crypt, _key, _rsaKey, name, method, params...);
     }
 };
 

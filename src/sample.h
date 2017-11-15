@@ -21,7 +21,7 @@ public:
     }
 
     void serialize(vector<ubyte>& buffer, string method = "") {
-        Message::_serialize(buffer, "Sample", method, id, name, age);
+        Message::serialize(buffer, "Sample", method, id, name, age);
     }
 };
 string Sample::_className = "Sample";

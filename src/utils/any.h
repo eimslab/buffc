@@ -19,18 +19,18 @@ struct Any {
     Any(Any && that) : m_ptr(std::move(that.m_ptr)), m_tpIndex(that.m_tpIndex) {
     }
 
-    template<typename U, class = typename std::enable_if<!std::is_same<typename std::decay<U>::type, Any>::value, U>::type> Any(U && value) : m_ptr(new Derived<typename std::decay<U>::type>(forward<U>(value))), m_tpIndex(type_index(typeid(typename std::decay<U>::type))) {
+    template <typename U, class = typename std::enable_if<!std::is_same<typename std::decay<U>::type, Any>::value, U>::type> Any(U && value) : m_ptr(new Derived<typename std::decay<U>::type>(forward<U>(value))), m_tpIndex(type_index(typeid(typename std::decay<U>::type))) {
     }
 
     bool IsNull() const {
         return !bool(m_ptr);
     }
 
-    template<class U> bool Is() const {
+    template <class U> bool Is() const {
         return m_tpIndex == type_index(typeid(U));
     }
 
-    template<class U>
+    template <class U>
     U& cast() {
         if (!Is<U>()) {
             cout << "can not cast " << typeid(U).name() << " to " << m_tpIndex.name() << endl;
@@ -60,9 +60,9 @@ private:
         virtual BasePtr Clone() const = 0;
     };
 
-    template<typename T>
+    template <typename T>
     struct Derived: Base {
-        template<typename U>
+        template <typename U>
         Derived(U && value) : m_value(forward<U>(value)) {
         }
 
