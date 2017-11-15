@@ -5,9 +5,9 @@ using namespace std;
 using namespace buffc;
 
 class Sample : Message {
-private:
-    string _className = "Sample";
 public:
+    string _className = "Sample";
+
     int32   id;
     string  name;
     int32   age;
