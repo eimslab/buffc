@@ -5,18 +5,18 @@ namespace utils {
 
 #define GET_UINT32(n, b, i)                                     \
 {                                                               \
-    (n) = (uint32) ((uint8 *) b)[(i)]                           \
-    | (((uint32) ((uint8 *) b)[(i)+1]) <<  8)                   \
-    | (((uint32) ((uint8 *) b)[(i)+2]) << 16)                   \
-    | (((uint32) ((uint8 *) b)[(i)+3]) << 24);                  \
+    (n) = (__uint32) ((__uint8 *) b)[(i)]                           \
+    | (((__uint32) ((__uint8 *) b)[(i)+1]) <<  8)                   \
+    | (((__uint32) ((__uint8 *) b)[(i)+2]) << 16)                   \
+    | (((__uint32) ((__uint8 *) b)[(i)+3]) << 24);                  \
 }
 
 #define PUT_UINT32(n, b, i)                                     \
 {                                                               \
-    (((uint8 *) b)[(i)]  ) = (uint8) (((n)      ) & 0xFF);      \
-    (((uint8 *) b)[(i)+1]) = (uint8) (((n) >>  8) & 0xFF);      \
-    (((uint8 *) b)[(i)+2]) = (uint8) (((n) >> 16) & 0xFF);      \
-    (((uint8 *) b)[(i)+3]) = (uint8) (((n) >> 24) & 0xFF);      \
+    (((__uint8 *) b)[(i)]  ) = (__uint8) (((n)      ) & 0xFF);      \
+    (((__uint8 *) b)[(i)+1]) = (__uint8) (((n) >>  8) & 0xFF);      \
+    (((__uint8 *) b)[(i)+2]) = (__uint8) (((n) >> 16) & 0xFF);      \
+    (((__uint8 *) b)[(i)+3]) = (__uint8) (((n) >> 24) & 0xFF);      \
 }
 
 void MD5::md5_starts(struct md5_context *ctx )
@@ -29,9 +29,9 @@ void MD5::md5_starts(struct md5_context *ctx )
     ctx->state[3] = 0x10325476;
 }
 
-void MD5::md5_process(struct md5_context *ctx, uint8 data[64])
+void MD5::md5_process(struct md5_context *ctx, __uint8 data[64])
 {
-    uint32 A, B, C, D, X[16];
+    __uint32 A, B, C, D, X[16];
 
     GET_UINT32( X[0],  data,  0 );
     GET_UINT32( X[1],  data,  4 );
@@ -152,9 +152,9 @@ void MD5::md5_process(struct md5_context *ctx, uint8 data[64])
     ctx->state[3] += D;
 }
 
-void MD5::md5_update(struct md5_context* ctx, uint8* input, size_t length)
+void MD5::md5_update(struct md5_context* ctx, __uint8* input, size_t length)
 {
-    uint32 left, fill;
+    __uint32 left, fill;
 
     if (!length ) return;
 
@@ -189,7 +189,7 @@ void MD5::md5_update(struct md5_context* ctx, uint8* input, size_t length)
     }
 }
 
-static uint8 md5_padding[64] =
+static __uint8 md5_padding[64] =
 {
     0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -197,10 +197,10 @@ static uint8 md5_padding[64] =
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-void MD5::md5_finish(struct md5_context* ctx, uint8 digest[16])
+void MD5::md5_finish(struct md5_context* ctx, __uint8 digest[16])
 {
-    uint32 last, padn;
-    uint8 msglen[8];
+    __uint32 last, padn;
+    __uint8 msglen[8];
 
     PUT_UINT32( ctx->total[0], msglen, 0 );
     PUT_UINT32( ctx->total[1], msglen, 4 );

@@ -17,8 +17,8 @@ class MD5
 
 private:
 
-    #define uint8  unsigned char
-    #define uint32 unsigned int
+    #define __uint8  unsigned char
+    #define __uint32 unsigned int
 
     struct MD5_DATA
     {
@@ -32,15 +32,15 @@ private:
 
     struct md5_context
     {
-        uint32 total[2];
-        uint32 state[4];
-        uint8 buffer[64];
+        __uint32 total[2];
+        __uint32 state[4];
+        __uint8 buffer[64];
     };
 
     void md5_starts(struct md5_context* ctx);
-    void md5_process(struct md5_context* ctx, uint8 data[64]);
-    void md5_update(struct md5_context* ctx, uint8* input, size_t length);
-    void md5_finish(struct md5_context* ctx, uint8 digest[16]);
+    void md5_process(struct md5_context* ctx, __uint8 data[64]);
+    void md5_update(struct md5_context* ctx, __uint8* input, size_t length);
+    void md5_finish(struct md5_context* ctx, __uint8 digest[16]);
 
 public:
 

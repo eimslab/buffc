@@ -119,7 +119,7 @@ void Packet::parse(vector<Any>& result, ubyte* buffer, uint len, ushort magic, C
     t_len = Bytes::peek<int>(buffer, 2);
 
     if ((t_magic != magic) || (t_len > len - 6)) {
-        cout << "magic or len error: " << t_magic << ", " << t_len;
+        cout << "magic or len error: " << t_magic << ", " << t_len << endl;
         throw;
     }
 
@@ -129,7 +129,7 @@ void Packet::parse(vector<Any>& result, ubyte* buffer, uint len, ushort magic, C
 
     for (int i = 0; i < 2; i++) {
         if (buffer[len - 2 + i] != md5_buf[i]) {
-            cout << "MD5 valid error.";
+            cout << "MD5 valid error." << endl;
             throw;
         }
     }
