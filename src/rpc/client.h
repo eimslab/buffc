@@ -17,8 +17,8 @@ public:
         Handler = handler;
     }
 
-    template <typename T, typename... Params>
-    static T call(string method, Params... params) {
+    template <class T, typename... Params>
+    static typename enable_if<is_base_of<Message, T>::value, T>::type call(string method, Params... params) {
         assert(Handler != null);        // TcpRequestHandler must be bound.
         assert(method.length() > 0);    // Paramter method must be set.
 
@@ -28,22 +28,51 @@ public:
         ubyte response[0xFFFF];
         uint len = Handler(request.data(), request.size(), response);
 
+        vector<Any> res_params;
         string name;
         string res_method;
-        vector<Any> res_params;
         Message::deserialize(res_params, response, len, name, res_method);
 
         //assert(method == res_method);
 
-        return HandleCallResult<T>(res_params);
-    }
-
-    template <typename T>
-    static T HandleCallResult(vector<Any>& res_params) {
         T message;
         message.setValue(res_params);
-
         return message;
+    }
+
+    template <typename T, typename... Params>
+    static typename enable_if<is_same<char,                 T>::value ||
+                              is_same<unsigned char,        T>::value ||
+                              is_same<short,                T>::value ||
+                              is_same<unsigned short,       T>::value ||
+                              is_same<int,                  T>::value ||
+                              is_same<unsigned int,         T>::value ||
+                              is_same<long,                 T>::value ||
+                              is_same<unsigned long,        T>::value ||
+                              is_same<long long,            T>::value ||
+                              is_same<unsigned long long,   T>::value ||
+                              is_same<float,                T>::value ||
+                              is_same<double,               T>::value ||
+                              is_same<long double,          T>::value ||
+                              is_same<bool,                 T>::value ||
+                              is_same<string,               T>::value, T>::type call(string method, Params... params) {
+        assert(Handler != null);        // TcpRequestHandler must be bound.
+        assert(method.length() > 0);    // Paramter method must be set.
+
+        vector<ubyte> request;
+        Message::serialize_without_msginfo(request, method, params...);
+
+        ubyte response[0xFFFF];
+        uint len = Handler(request.data(), request.size(), response);
+
+        vector<Any> res_params;
+        string name;
+        string res_method;
+        Message::deserialize(res_params, response, len, name, res_method);
+
+        //assert(method == res_method);
+
+        return res_params[0].cast<T>();
     }
 };
 
