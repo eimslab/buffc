@@ -1,15 +1,13 @@
 #include <vector>
-
-#include "utils/any.h"
 #include "message.h"
 
 using namespace std;
 using namespace buffc;
 
 class Sample : Message {
+private:
+    string _className = "Sample";
 public:
-    static string _className;
-
     int32   id;
     string  name;
     int32   age;
@@ -24,4 +22,3 @@ public:
         Message::serialize(buffer, "Sample", method, id, name, age);
     }
 };
-string Sample::_className = "Sample";

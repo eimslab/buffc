@@ -42,14 +42,14 @@ public:
     static void deserialize(vector<Any>& result, ubyte* buffer, uint len, string& name, string& method);
 
     template <class T>
-    static T deserialize(ubyte* buffer, uint len) {
+    static typename enable_if<is_base_of<Message, T>::value, T>::type deserialize(ubyte* buffer, uint len) {
         string method;
 
         return deserialize<T>(buffer, len, method);
     }
 
     template <class T>
-    static T deserialize(ubyte* buffer, uint len, string& method) {
+    static typename enable_if<is_base_of<Message, T>::value, T>::type deserialize(ubyte* buffer, uint len, string& method) {
         string name;
         vector<Any> params;
         deserialize(params, buffer, len, name, method);
