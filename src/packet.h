@@ -161,7 +161,7 @@ public:
         bb.put<int>(0, false, false, 0);     // length, seize a seat.
         bb.put<string>(name, false, true, 2);
         bb.put<string>(method, false, true, 2);
-        Bytes::write<int>(buffer.size() - 2 - 4 + en_len + 2, buffer, 2);
+        Bytes::write<int>((int)(buffer.size() - 2 - 4 + en_len + 2), buffer, 2);
 
         for (int i = 0; i < en_len; i++) {
             buffer.push_back(en[i]);

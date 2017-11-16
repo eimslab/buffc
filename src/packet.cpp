@@ -141,20 +141,20 @@ void Packet::parse(vector<Any>& result, ubyte* buffer, uint len, ushort magic, C
 
     if (crypt == CryptType::NONE) {
         de = buffer + tlv_pos;
-        de_len = len - tlv_pos - 2;
+        de_len = (int)(len - tlv_pos - 2);
     } else if (crypt == CryptType::XTEA) {
         int* xtea_key = (int*)key.c_str();
         crypt::tea::xtea::XTEA xtea(xtea_key, 64);
-        de = new ubyte[len - tlv_pos - 2];
-        de_len = xtea.decrypt(buffer + tlv_pos, len - tlv_pos - 2, de);
+        de = new ubyte[(int)(len - tlv_pos - 2)];
+        de_len = xtea.decrypt(buffer + tlv_pos, (int)(len - tlv_pos - 2), de);
     } else if (crypt == CryptType::AES) {
         ubyte* aes_key = (ubyte*)key.c_str();
         AES128 aes(aes_key, 24);
-        de = new ubyte[len - tlv_pos - 2];
-        de_len = aes.decrypt(buffer + tlv_pos, len - tlv_pos - 2, de);
+        de = new ubyte[(int)(len - tlv_pos - 2)];
+        de_len = aes.decrypt(buffer + tlv_pos, (int)(len - tlv_pos - 2), de);
     } else {    // CryptType::RSA
-        de = new ubyte[(len - tlv_pos - 2) * 2];
-        de_len = RSA::decrypt(rsaKey, buffer + tlv_pos, len - tlv_pos - 2, de);
+        de = new ubyte[(int)(len - tlv_pos - 2) * 2];
+        de_len = RSA::decrypt(rsaKey, buffer + tlv_pos, (int)(len - tlv_pos - 2), de);
     }
 
     result.clear();
