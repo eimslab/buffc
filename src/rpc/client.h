@@ -6,7 +6,7 @@
 namespace buffc {
 namespace rpc {
 
-typedef uint (*TcpRequestHandler)(ubyte* send_buffer, uint send_len, ubyte* receive_buffer);
+typedef void (*TcpRequestHandler)(vector<ubyte>& send_buffer, vector<ubyte>& receive_buffer);
 static TcpRequestHandler Handler = null;
 
 class Client {
@@ -25,13 +25,13 @@ public:
         vector<ubyte> request;
         Message::serialize_without_msginfo(request, method, params...);
 
-        ubyte response[0xFFFF];
-        uint len = Handler(request.data(), request.size(), response);
+        vector<ubyte> response;
+        Handler(request, response);
 
         vector<Any> res_params;
         string name;
         string res_method;
-        Message::deserialize(res_params, response, len, name, res_method);
+        Message::deserialize(res_params, response.data(), response.size(), name, res_method);
 
         //assert(method == res_method);
 
@@ -62,13 +62,13 @@ public:
         vector<ubyte> request;
         Message::serialize_without_msginfo(request, method, params...);
 
-        ubyte response[0xFFFF];
-        uint len = Handler(request.data(), request.size(), response);
+        vector<ubyte> response;
+        Handler(request, response);
 
         vector<Any> res_params;
         string name;
         string res_method;
-        Message::deserialize(res_params, response, len, name, res_method);
+        Message::deserialize(res_params, response.data(), response.size(), name, res_method);
 
         //assert(method == res_method);
 

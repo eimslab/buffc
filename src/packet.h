@@ -93,6 +93,71 @@ public:
     }
 };
 
+template <>
+inline uint BufferBuilder::put<string>(const string& value, bool isWriteTypeInfo, bool isWriteLengthInfo, int lengthBytes) {
+    assert(lengthBytes == 0 || lengthBytes == 2 || lengthBytes == 4);
+
+    if (isWriteTypeInfo) {
+        buffer->push_back(TypeID<string>());
+    }
+
+    uint len = value.length();
+    if (isWriteLengthInfo && lengthBytes > 0) {
+        if (lengthBytes == 2)
+            Bytes::write<ushort>((ushort)len, *buffer, -1);
+        else
+            Bytes::write<uint>(len, *buffer, -1);
+    }
+
+    Bytes::write<string>(value, *buffer, -1);
+
+    return len;
+}
+
+template <>
+inline uint BufferBuilder::put<long>(const long& value, bool isWriteTypeInfo, bool isWriteLengthInfo, int lengthBytes) {
+    assert(lengthBytes == 0 || lengthBytes == 2 || lengthBytes == 4);
+
+    if (isWriteTypeInfo) {
+        Bytes::write<ubyte>(TypeID<int64>(), *buffer, -1);
+    }
+
+    uint len = sizeof(int64);
+
+    if (isWriteLengthInfo && lengthBytes > 0) {
+        if (lengthBytes == 2)
+            Bytes::write<ushort>((ushort)len, *buffer, -1);
+        else
+            Bytes::write<uint>(len, *buffer, -1);
+    }
+
+    Bytes::write<int64>((int64)value, *buffer, -1);
+
+    return len;
+}
+
+template <>
+inline uint BufferBuilder::put<unsigned long>(const unsigned long& value, bool isWriteTypeInfo, bool isWriteLengthInfo, int lengthBytes) {
+    assert(lengthBytes == 0 || lengthBytes == 2 || lengthBytes == 4);
+
+    if (isWriteTypeInfo) {
+        Bytes::write<ubyte>(TypeID<uint64>(), *buffer, -1);
+    }
+
+    uint len = sizeof(uint64);
+
+    if (isWriteLengthInfo && lengthBytes > 0) {
+        if (lengthBytes == 2)
+            Bytes::write<ushort>((ushort)len, *buffer, -1);
+        else
+            Bytes::write<uint>(len, *buffer, -1);
+    }
+
+    Bytes::write<uint64>((uint64)value, *buffer, -1);
+
+    return len;
+}
+
 class Packet {
 private:
 
@@ -111,13 +176,13 @@ private:
 
     template <typename T, typename... Params>
     static void unpacker(BufferBuilder& bb, const T& t, Params... params) {
-        unpacker(bb, t);
+        unpacker<T>(bb, t);
         unpacker(bb, params...);
     }
 
     template <typename T, typename... Params>
     static void unpacker(BufferBuilder& bb, const T*& t, Params... params) {
-        unpacker(bb, t);
+        unpacker<T>(bb, t);
         unpacker(bb, params...);
     }
 
@@ -181,6 +246,23 @@ public:
     static uint parseInfo(ubyte* buffer, uint len, string& name, string& method);
     static void parse(vector<Any>& result, ubyte* buffer, uint len, ushort magic, CryptType crypt, const string& key, const RSAKeyInfo& rsaKey, string& name, string& method);
 };
+
+template <>
+inline void Packet::unpacker<string>(BufferBuilder& bb, const string& t) {
+    bb.put<string>(t, true, true, 4);
+}
+
+template <>
+inline void Packet::unpacker<char>(BufferBuilder& bb, const char*& t) {
+    string s(t);
+    bb.put<string>(s, true, true, 4);
+}
+
+template <>
+inline void Packet::unpacker<const char>(BufferBuilder& bb, const char*& t) {
+    string s(t);
+    bb.put<string>(s, true, true, 4);
+}
 
 }
 
