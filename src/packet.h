@@ -4,19 +4,21 @@
 #include <type_traits>
 
 #include <src/utils/typedefine.h>
+#include <src/md5.h>
 #include <src/tea/xtea.h>
 #include <src/aes.h>
 #include <src/rsa.h>
 
 #include "utils/bytes.h"
-#include "utils/md5.h"
 #include "utils/utility.h"
 #include "utils/any.h"
 
 using namespace std;
+using namespace crypt;
 using namespace crypt::tea::xtea;
 using namespace crypt::rsa;
 using namespace crypt::aes;
+
 using namespace buffc::utils;
 
 namespace buffc {
