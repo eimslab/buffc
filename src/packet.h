@@ -1,5 +1,4 @@
-#ifndef _Included_BUFFC_PACKET_H
-#define _Included_BUFFC_PACKET_H
+#pragma once
 
 #include <type_traits>
 
@@ -267,5 +266,3 @@ inline void Packet::unpacker<const char>(BufferBuilder& bb, const char*& t) {
 }
 
 }
-
-#endif

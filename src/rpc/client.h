@@ -1,5 +1,4 @@
-#ifndef _Included_BUFFC_RPC_CLIENT_H
-#define _Included_BUFFC_RPC_CLIENT_H
+#pragma once
 
 #include "../message.h"
 
@@ -78,5 +77,3 @@ public:
 
 }
 }
-
-#endif

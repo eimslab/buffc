@@ -1,5 +1,4 @@
-#ifndef _Included_BUFFC_ANY_H
-#define _Included_BUFFC_ANY_H
+#pragma once
 
 #include <iostream>
 #include <typeindex>
@@ -86,5 +85,3 @@ private:
 
 }
 }
-
-#endif

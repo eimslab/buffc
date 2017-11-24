@@ -1,5 +1,4 @@
-#ifndef _Included_BUFFC_BYTES_H
-#define _Included_BUFFC_BYTES_H
+#pragma once
 
 #include <vector>
 #include <cassert>
@@ -171,5 +170,3 @@ inline unsigned long Bytes::peek<unsigned long>(ubyte* buffer, int offset, int c
 
 }
 }
-
-#endif

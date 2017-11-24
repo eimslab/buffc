@@ -1,5 +1,4 @@
-//#ifndef _Included_BUFFC_MESSAGE_SAMPLE_H
-//#define _Included_BUFFC_MESSAGE_SAMPLE_H
+//#pragma once
 //
 //#include <vector>
 //#include "message.h"
@@ -25,5 +24,4 @@
 //        Message::serialize(buffer, "Sample", method, id, name, age);
 //    }
 //};
-//
-//#endif
+

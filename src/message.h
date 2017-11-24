@@ -1,5 +1,4 @@
-#ifndef _Included_BUFFC_MESSAGE_H
-#define _Included_BUFFC_MESSAGE_H
+#pragma once
 
 #include "packet.h"
 
@@ -79,5 +78,3 @@ protected:
 };
 
 }
-
-#endif

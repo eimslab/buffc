@@ -1,5 +1,4 @@
-#ifndef _Included_BUFFC_UTILITY_H
-#define _Included_BUFFC_UTILITY_H
+#pragma once
 
 #include <stdlib.h>
 #include <iostream>
@@ -11,4 +10,3 @@ using namespace std;
 uint strToByte_hex(const string&, ubyte*, uint = -1);
 string byteToStr_hex(ubyte*, uint);
 
-#endif
