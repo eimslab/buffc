@@ -62,7 +62,7 @@ void Packet::parse(vector<Any>& result, ubyte* buffer, uint len, ushort magic, C
         de_len = (int)(len - tlv_pos - 2);
     } else if (crypt == CryptType::XTEA) {
         int* xtea_key = (int*)key.c_str();
-        crypt::tea::xtea::XTEA xtea(xtea_key, 64);
+        cryption::tea::xtea::XTEA xtea(xtea_key, 64);
         de = new ubyte[(int)(len - tlv_pos - 2)];
         de_len = xtea.decrypt(buffer + tlv_pos, (int)(len - tlv_pos - 2), de);
     } else if (crypt == CryptType::AES) {

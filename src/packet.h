@@ -2,21 +2,21 @@
 
 #include <type_traits>
 
-#include <src/utils/typedefine.h>
 #include <src/md5.h>
 #include <src/tea/xtea.h>
 #include <src/aes.h>
 #include <src/rsa.h>
 
+#include "utils/types.h"
 #include "utils/bytes.h"
 #include "utils/utility.h"
 #include "utils/any.h"
 
 using namespace std;
-using namespace crypt;
-using namespace crypt::tea::xtea;
-using namespace crypt::rsa;
-using namespace crypt::aes;
+using namespace cryption;
+using namespace cryption::tea::xtea;
+using namespace cryption::rsa;
+using namespace cryption::aes;
 
 using namespace buffc::utils;
 
@@ -207,7 +207,7 @@ public:
             en_len = tlv_len;
         } else if (crypt == CryptType::XTEA) {
             int* xtea_key = (int*)key.c_str();
-            crypt::tea::xtea::XTEA xtea(xtea_key, 64);
+            cryption::tea::xtea::XTEA xtea(xtea_key, 64);
             en = new ubyte[tlv_len + 12];
             en_len = xtea.encrypt(tlv_p, tlv_len, en);
         } else if (crypt == CryptType::AES) {
