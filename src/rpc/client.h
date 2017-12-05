@@ -2,7 +2,7 @@
 
 #include "../message.h"
 
-namespace buffc {
+namespace buffer {
 namespace rpc {
 
 typedef void (*TcpRequestHandler)(vector<ubyte>& send_buffer, vector<ubyte>& receive_buffer);

@@ -6,8 +6,8 @@
 //#include "rpc/client.h"
 //
 //using namespace std;
-//using namespace buffc;
-//using namespace buffc::rpc;
+//using namespace buffer;
+//using namespace buffer::rpc;
 //
 //void tcpRequestHandler(vector<ubyte>& send_buffer, vector<ubyte>& receive_buffer) {
 //    for (int i = 0 ; i < send_buffer.size(); i++) {

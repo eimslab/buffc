@@ -1,6 +1,6 @@
 #include "packet.h"
 
-namespace buffc {
+namespace buffer {
 
 BufferBuilder::BufferBuilder(vector<ubyte>* buffer) {
     this->buffer = buffer;

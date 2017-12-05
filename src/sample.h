@@ -4,7 +4,7 @@
 //#include "message.h"
 //
 //using namespace std;
-//using namespace buffc;
+//using namespace buffer;
 //
 //class Sample : Message {
 //public:

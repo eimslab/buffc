@@ -18,9 +18,9 @@ using namespace cryption::tea::xtea;
 using namespace cryption::rsa;
 using namespace cryption::aes;
 
-using namespace buffc::utils;
+using namespace buffer::utils;
 
-namespace buffc {
+namespace buffer {
 
 enum CryptType {
     NONE = 0,

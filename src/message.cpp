@@ -1,6 +1,6 @@
 #include "message.h"
 
-namespace buffc {
+namespace buffer {
 
 void Message::settings(ushort magic, CryptType crypt, string key) {
     assert(crypt == CryptType::NONE || (crypt != CryptType::NONE && !key.empty())); // Must specify key when specifying the type of CryptType.

@@ -5,7 +5,7 @@
 
 using namespace std;
 
-namespace buffc {
+namespace buffer {
 namespace utils {
 
 struct Any {

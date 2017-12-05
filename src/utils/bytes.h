@@ -8,7 +8,7 @@
 
 using namespace std;
 
-namespace buffc {
+namespace buffer {
 namespace utils {
 
 class Bytes {

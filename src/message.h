@@ -2,7 +2,7 @@
 
 #include "packet.h"
 
-namespace buffc {
+namespace buffer {
 
 static ushort       _magic;
 static CryptType    _crypt;
