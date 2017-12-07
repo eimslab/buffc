@@ -78,7 +78,7 @@ inline string Bytes::peek<string>(ubyte* buffer, int offset, int count) {
         offset = 0;
     }
 
-    ubyte* p = new ubyte[count + 1];
+    ubyte* p = new ubyte[count];
 
     uint i = 0;
     while (i < count) {
@@ -86,8 +86,7 @@ inline string Bytes::peek<string>(ubyte* buffer, int offset, int count) {
         i++;
     }
 
-    p[i] = 0x00;
-    return string((char*)p, 0, count + 1);
+    return string((char*)p, count);
 }
 
 template <>
