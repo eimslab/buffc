@@ -15,13 +15,13 @@ uint Packet::parseInfo(ubyte* buffer, uint len, string& name, string& method) {
 
     ushort len1 = Bytes::peek<ushort>(buffer, 6);
     if (len1 > 0) {
-        assert(len >= 8 + len1);
+        assert(len >= (uint)(8 + len1));
         name = Bytes::peek<string>(buffer, 8, len1);
     }
 
     ushort len2 = Bytes::peek<ushort>(buffer, 8 + len1);
     if (len2 > 0) {
-        assert(len >= 10 + len1 +len2);
+        assert(len >= (uint)(10 + len1 +len2));
         method = Bytes::peek<string>(buffer, 10 + len1, len2);
     }
 
@@ -36,7 +36,7 @@ void Packet::parse(vector<Any>& result, ubyte* buffer, uint len, ushort magic, C
     t_magic = Bytes::peek<ushort>(buffer, 0);
     t_len = Bytes::peek<int>(buffer, 2);
 
-    if ((t_magic != magic) || (t_len > len - 6)) {
+    if ((t_magic != magic) || (t_len > (int)(len - 6))) {
         cout << "magic or len error: " << t_magic << ", " << t_len << endl;
         throw;
     }

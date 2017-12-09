@@ -20,7 +20,7 @@ uint strToByte_hex(const string& input, ubyte* result, uint max_len) {
 string byteToStr_hex(ubyte* input, uint len) {
     char t[len * 2];
 
-    for (int i = 0; i < len; i++) {
+    for (uint i = 0; i < len; i++) {
         sprintf(t + i * 2, "%02X", input[i]);
     }
 

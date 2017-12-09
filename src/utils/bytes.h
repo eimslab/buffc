@@ -80,7 +80,7 @@ inline string Bytes::peek<string>(ubyte* buffer, int offset, int count) {
 
     ubyte* p = new ubyte[count];
 
-    uint i = 0;
+    int i = 0;
     while (i < count) {
         p[i] = buffer[offset + i];
         i++;

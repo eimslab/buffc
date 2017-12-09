@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <typeindex>
+#include <memory>
 
 using namespace std;
 
