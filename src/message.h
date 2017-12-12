@@ -9,7 +9,8 @@ static CryptType    _crypt;
 static string       _key;
 static RSAKeyInfo   _rsaKey(BigInt(0), BigInt(0));
 
-class Message {
+class Message
+{
 
 protected:
     typedef char    int8;
@@ -33,7 +34,8 @@ public:
     static void settings(ushort magic, RSAKeyInfo rsaKey);
 
     template <typename... Params>
-    static void serialize_without_msginfo(vector<ubyte>& buffer, string method, Params... params) {
+    static void serialize_without_msginfo(vector<ubyte>& buffer, string method, Params... params)
+    {
         Packet::build(buffer, _magic, _crypt, _key, _rsaKey, "", method, params...);
     }
 
@@ -41,25 +43,29 @@ public:
     static void deserialize(vector<Any>& result, ubyte* buffer, uint len, string& name, string& method);
 
     template <class T>
-    static typename enable_if<is_base_of<Message, T>::value, T>::type deserialize(ubyte* buffer, uint len) {
+    static typename enable_if<is_base_of<Message, T>::value, T>::type deserialize(ubyte* buffer, uint len)
+    {
         string method;
 
         return deserialize<T>(buffer, len, method);
     }
 
     template <class T>
-    static typename enable_if<is_base_of<Message, T>::value, T>::type deserialize(ubyte* buffer, uint len, string& method) {
+    static typename enable_if<is_base_of<Message, T>::value, T>::type deserialize(ubyte* buffer, uint len, string& method)
+    {
         string name;
         vector<Any> params;
         deserialize(params, buffer, len, name, method);
 
-        if (name.empty() || params.size() == 0) {
+        if (name.empty() || params.size() == 0)
+        {
             cout << "Invalid message buffer." << endl;
             throw;
         }
 
         T message;
-        if (message._className != name) {
+        if (message._className != name)
+        {
             cout << "The type " << name << " of the incoming template is incorrect." << endl;
             throw;
         }
@@ -72,7 +78,8 @@ public:
 protected:
 
     template <typename... Params>
-    void serialize(vector<ubyte>& buffer, string name, string& method, Params... params) {
+    void serialize(vector<ubyte>& buffer, string name, string& method, Params... params)
+    {
         Packet::build(buffer, _magic, _crypt, _key, _rsaKey, name, method, params...);
     }
 };

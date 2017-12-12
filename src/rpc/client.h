@@ -2,22 +2,27 @@
 
 #include "../message.h"
 
-namespace buffer {
-namespace rpc {
+namespace buffer
+{
+namespace rpc
+{
 
 typedef void (*TcpRequestHandler)(vector<ubyte>& send_buffer, vector<ubyte>& receive_buffer);
 static TcpRequestHandler Handler = null;
 
-class Client {
+class Client
+{
 
 public:
 
-    static void bindTcpRequestHandler(TcpRequestHandler handler) {
+    static void bindTcpRequestHandler(TcpRequestHandler handler)
+    {
         Handler = handler;
     }
 
     template <class T, typename... Params>
-    static typename enable_if<is_base_of<Message, T>::value, T>::type call(string method, Params... params) {
+    static typename enable_if<is_base_of<Message, T>::value, T>::type call(string method, Params... params)
+    {
         assert(Handler != null);        // TcpRequestHandler must be bound.
         assert(method.length() > 0);    // Paramter method must be set.
 
@@ -54,7 +59,8 @@ public:
                               is_same<double,               T>::value ||
                               is_same<long double,          T>::value ||
                               is_same<bool,                 T>::value ||
-                              is_same<string,               T>::value, T>::type call(string method, Params... params) {
+                              is_same<string,               T>::value, T>::type call(string method, Params... params)
+    {
         assert(Handler != null);        // TcpRequestHandler must be bound.
         assert(method.length() > 0);    // Paramter method must be set.
 
