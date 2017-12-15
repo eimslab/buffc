@@ -4,10 +4,10 @@
 
 namespace buffer {
 
-static ushort       _magic;
-static CryptType    _crypt;
-static string       _key;
-static RSAKeyInfo   _rsaKey(BigInt(0), BigInt(0));
+extern ushort       _magic;
+extern CryptType    _crypt;
+extern string       _key;
+extern RSAKeyInfo   _rsaKey;
 
 class Message
 {

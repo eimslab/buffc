@@ -8,7 +8,7 @@ namespace rpc
 {
 
 typedef void (*TcpRequestHandler)(vector<ubyte>& send_buffer, vector<ubyte>& receive_buffer);
-static TcpRequestHandler Handler = null;
+static TcpRequestHandler Handler = NULL;
 
 class Client
 {

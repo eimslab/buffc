@@ -3,6 +3,11 @@
 namespace buffer
 {
 
+ushort       _magic;
+CryptType    _crypt;
+string       _key;
+RSAKeyInfo   _rsaKey(BigInt(0), BigInt(0));
+
 void Message::settings(ushort magic, CryptType crypt, string key)
 {
     assert(crypt == CryptType::NONE || (crypt != CryptType::NONE && !key.empty())); // Must specify key when specifying the type of CryptType.
