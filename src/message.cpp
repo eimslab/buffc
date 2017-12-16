@@ -16,16 +16,16 @@ void Message::settings(ushort magic, CryptType crypt, string key)
     _crypt = crypt;
     _key   = key;
 
-    if (crypt == CryptType::RSA)
+    if ((crypt == CryptType::RSA) || (crypt == CryptType::RSA_XTEA_MIXIN))
     {
         _rsaKey = RSA::decodeKey(key);
     }
 }
 
-void Message::settings(ushort magic, RSAKeyInfo rsaKey)
+void Message::settings(ushort magic, RSAKeyInfo rsaKey, bool mixinXteaMode)
 {
     _magic = magic;
-    _crypt = CryptType::RSA;
+    _crypt = mixinXteaMode ? CryptType::RSA_XTEA_MIXIN : CryptType::RSA;
     _rsaKey = rsaKey;
 }
 

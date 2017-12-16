@@ -75,21 +75,23 @@ void Packet::parse(vector<Any>& result, ubyte* buffer, uint len, ushort magic, C
     else if (crypt == CryptType::XTEA)
     {
         int* xtea_key = (int*)key.c_str();
-        cryption::tea::xtea::XTEA xtea(xtea_key, 64);
         de = new ubyte[(int)(len - tlv_pos - 2)];
-        de_len = xtea.decrypt(buffer + tlv_pos, (int)(len - tlv_pos - 2), de);
+        de_len = XTEAUtils::decrypt(buffer + tlv_pos, (int)(len - tlv_pos - 2), xtea_key, de);
     }
     else if (crypt == CryptType::AES)
     {
-        ubyte* aes_key = (ubyte*)key.c_str();
-        AES128 aes(aes_key, 24);
         de = new ubyte[(int)(len - tlv_pos - 2)];
-        de_len = aes.decrypt(buffer + tlv_pos, (int)(len - tlv_pos - 2), de);
+        de_len = AESUtils::decrypt<AES128>(buffer + tlv_pos, (int)(len - tlv_pos - 2), key, de);
     }
-    else
-    {    // CryptType::RSA
+    else if (crypt == CryptType::RSA)
+    {
         de = new ubyte[(int)(len - tlv_pos - 2) * 2];
         de_len = RSA::decrypt(rsaKey, buffer + tlv_pos, (int)(len - tlv_pos - 2), de);
+    }
+    else
+    {   // CryptType::RSA_XTEA_MIXIN
+        de = new ubyte[(int)(len - tlv_pos - 2) * 2];
+        de_len = RSA::decrypt(rsaKey, buffer + tlv_pos, (int)(len - tlv_pos - 2), de, true);
     }
 
     result.clear();

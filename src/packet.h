@@ -25,10 +25,11 @@ namespace buffer
 
 enum CryptType
 {
-    NONE = 0,
-    XTEA = 1,
-    AES  = 2,
-    RSA  = 3
+    NONE            = 0,
+    XTEA            = 1,
+    AES             = 2,
+    RSA             = 3,
+    RSA_XTEA_MIXIN  = 4
 };
 
 template <typename T> ubyte TypeID()
@@ -234,21 +235,23 @@ public:
         else if (crypt == CryptType::XTEA)
         {
             int* xtea_key = (int*)key.c_str();
-            cryption::tea::xtea::XTEA xtea(xtea_key, 64);
             en = new ubyte[tlv_len + 12];
-            en_len = xtea.encrypt(tlv_p, tlv_len, en);
+            en_len = XTEAUtils::encrypt(tlv_p, tlv_len, xtea_key, en);
         }
         else if (crypt == CryptType::AES)
         {
-            ubyte* aes_key = (ubyte*)key.c_str();
-            AES128 aes(aes_key, 24);
             en = new ubyte[tlv_len + 20];
-            en_len = aes.encrypt(tlv_p, tlv_len, en);
+            en_len = AESUtils::encrypt<AES128>(tlv_p, tlv_len, key, en);
         }
-        else
-        {    // CryptType::RSA
+        else if (crypt == CryptType::RSA)
+        {
             en = new ubyte[tlv_len * 2];
             en_len = RSA::encrypt(rsaKey, tlv_p, tlv_len, en);
+        }
+        else
+        {   //  CryptType::RSA_XTEA_MIXIN
+            en = new ubyte[tlv_len * 2];
+            en_len = RSA::encrypt(rsaKey, tlv_p, tlv_len, en, true);
         }
 
         buffer.clear();

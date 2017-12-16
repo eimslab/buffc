@@ -31,7 +31,7 @@ protected:
 public:
 
     static void settings(ushort magic, CryptType crypt = CryptType::NONE, string key = "");
-    static void settings(ushort magic, RSAKeyInfo rsaKey);
+    static void settings(ushort magic, RSAKeyInfo rsaKey, bool mixinXteaMode = false);
 
     template <typename... Params>
     static void serialize_without_msginfo(vector<ubyte>& buffer, string method, Params... params)
