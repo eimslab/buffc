@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "utility.h"
 
 uint strToByte_hex(const string& input, ubyte* result, uint max_len)
