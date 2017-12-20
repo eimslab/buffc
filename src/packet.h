@@ -113,7 +113,7 @@ inline uint BufferBuilder::put<string>(const string& value, bool isWriteTypeInfo
         buffer->push_back(TypeID<string>());
     }
 
-    uint len = value.length();
+    uint len = (uint)value.length();
     if (isWriteLengthInfo && lengthBytes > 0)
     {
         if (lengthBytes == 2)
@@ -223,7 +223,7 @@ public:
         unpacker(bb, params...);
 
         ubyte* tlv_p = tlv.data();
-        uint tlv_len = tlv.size();
+        uint tlv_len = (uint)tlv.size();
         ubyte* en;
         uint en_len;
 

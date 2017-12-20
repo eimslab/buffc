@@ -21,7 +21,7 @@ public:
     {
         if (offset < 0)
         {
-            offset = buffer.size();
+            offset = (int)buffer.size();
         }
         while (buffer.size() < offset + sizeof(T))
         {
@@ -67,7 +67,7 @@ inline uint Bytes::write<string>(const string& value, vector<ubyte>& buffer, int
 {
     if (offset < 0)
     {
-        offset = buffer.size();
+        offset = (int)buffer.size();
     }
 
     while (buffer.size() < offset + value.length())
@@ -84,7 +84,7 @@ inline uint Bytes::write<string>(const string& value, vector<ubyte>& buffer, int
         i++;
     }
 
-    return value.length();
+    return (uint)value.length();
 }
 
 template <>
@@ -113,7 +113,7 @@ inline uint Bytes::write<long>(const long& value, vector<ubyte>& buffer, int off
     int64 v = value;
     if (offset < 0)
     {
-        offset = buffer.size();
+        offset = (int)buffer.size();
     }
 
     while (buffer.size() < offset + sizeof(int64))
@@ -160,7 +160,7 @@ inline uint Bytes::write<unsigned long>(const unsigned long& value, vector<ubyte
     uint64 v = value;
     if (offset < 0)
     {
-        offset = buffer.size();
+        offset = (int)buffer.size();
     }
 
     while (buffer.size() < offset + sizeof(uint64))

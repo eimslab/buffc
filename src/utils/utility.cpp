@@ -23,12 +23,15 @@ uint strToByte_hex(const string& input, ubyte* result, uint max_len)
 
 string byteToStr_hex(ubyte* input, uint len)
 {
-    char t[len * 2];
+    char* t = new char[len * 2];
 
     for (uint i = 0; i < len; i++)
     {
         sprintf(t + i * 2, "%02X", input[i]);
     }
 
-    return string(t, 0, len * 2);
+    string ret(t, 0, len * 2);
+    delete[] t;
+
+    return ret;
 }
