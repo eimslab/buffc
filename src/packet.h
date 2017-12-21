@@ -78,33 +78,33 @@ public:
     void setBuffer(vector<ubyte>*);
 
     template <typename T>
-    uint put(const T& value, bool isWriteTypeInfo, bool isWriteLengthInfo, int lengthBytes)
+    size_t put(const T& value, bool isWriteTypeInfo, bool isWriteLengthInfo, int lengthBytes)
     {
         assert(lengthBytes == 0 || lengthBytes == 2 || lengthBytes == 4);
 
         if (isWriteTypeInfo)
         {
-            Bytes::write<ubyte>(TypeID<T>(), *buffer, -1);
+            Bytes::write<ubyte>(TypeID<T>(), *buffer, buffer->size());
         }
 
-        uint len = sizeof(T);
+        size_t len = sizeof(T);
 
         if (isWriteLengthInfo && lengthBytes > 0)
         {
             if (lengthBytes == 2)
-                Bytes::write<ushort>((ushort)len, *buffer, -1);
+                Bytes::write<ushort>((ushort)len, *buffer, buffer->size());
             else
-                Bytes::write<uint>(len, *buffer, -1);
+                Bytes::write<uint>((uint)len, *buffer, buffer->size());
         }
 
-        Bytes::write<T>(value, *buffer, -1);
+        Bytes::write<T>(value, *buffer, buffer->size());
 
         return len;
     }
 };
 
 template <>
-inline uint BufferBuilder::put<string>(const string& value, bool isWriteTypeInfo, bool isWriteLengthInfo, int lengthBytes)
+inline size_t BufferBuilder::put<string>(const string& value, bool isWriteTypeInfo, bool isWriteLengthInfo, int lengthBytes)
 {
     assert(lengthBytes == 0 || lengthBytes == 2 || lengthBytes == 4);
 
@@ -113,66 +113,66 @@ inline uint BufferBuilder::put<string>(const string& value, bool isWriteTypeInfo
         buffer->push_back(TypeID<string>());
     }
 
-    uint len = (uint)value.length();
+    size_t len = value.length();
     if (isWriteLengthInfo && lengthBytes > 0)
     {
         if (lengthBytes == 2)
-            Bytes::write<ushort>((ushort)len, *buffer, -1);
+            Bytes::write<ushort>((ushort)len, *buffer, buffer->size());
         else
-            Bytes::write<uint>(len, *buffer, -1);
+            Bytes::write<uint>((uint)len, *buffer, buffer->size());
     }
 
-    Bytes::write<string>(value, *buffer, -1);
+    Bytes::write<string>(value, *buffer, buffer->size());
 
     return len;
 }
 
 template <>
-inline uint BufferBuilder::put<long>(const long& value, bool isWriteTypeInfo, bool isWriteLengthInfo, int lengthBytes)
+inline size_t BufferBuilder::put<long>(const long& value, bool isWriteTypeInfo, bool isWriteLengthInfo, int lengthBytes)
 {
     assert(lengthBytes == 0 || lengthBytes == 2 || lengthBytes == 4);
 
     if (isWriteTypeInfo)
     {
-        Bytes::write<ubyte>(TypeID<int64>(), *buffer, -1);
+        Bytes::write<ubyte>(TypeID<int64>(), *buffer, buffer->size());
     }
 
-    uint len = sizeof(int64);
+    size_t len = sizeof(int64);
 
     if (isWriteLengthInfo && lengthBytes > 0)
     {
         if (lengthBytes == 2)
-            Bytes::write<ushort>((ushort)len, *buffer, -1);
+            Bytes::write<ushort>((ushort)len, *buffer, buffer->size());
         else
-            Bytes::write<uint>(len, *buffer, -1);
+            Bytes::write<uint>((uint)len, *buffer, buffer->size());
     }
 
-    Bytes::write<int64>((int64)value, *buffer, -1);
+    Bytes::write<int64>((int64)value, *buffer, buffer->size());
 
     return len;
 }
 
 template <>
-inline uint BufferBuilder::put<unsigned long>(const unsigned long& value, bool isWriteTypeInfo, bool isWriteLengthInfo, int lengthBytes)
+inline size_t BufferBuilder::put<unsigned long>(const unsigned long& value, bool isWriteTypeInfo, bool isWriteLengthInfo, int lengthBytes)
 {
     assert(lengthBytes == 0 || lengthBytes == 2 || lengthBytes == 4);
 
     if (isWriteTypeInfo)
     {
-        Bytes::write<ubyte>(TypeID<uint64>(), *buffer, -1);
+        Bytes::write<ubyte>(TypeID<uint64>(), *buffer, buffer->size());
     }
 
-    uint len = sizeof(uint64);
+    size_t len = sizeof(uint64);
 
     if (isWriteLengthInfo && lengthBytes > 0)
     {
         if (lengthBytes == 2)
-            Bytes::write<ushort>((ushort)len, *buffer, -1);
+            Bytes::write<ushort>((ushort)len, *buffer, buffer->size());
         else
-            Bytes::write<uint>(len, *buffer, -1);
+            Bytes::write<uint>((uint)len, *buffer, buffer->size());
     }
 
-    Bytes::write<uint64>((uint64)value, *buffer, -1);
+    Bytes::write<uint64>((uint64)value, *buffer, buffer->size());
 
     return len;
 }
@@ -223,9 +223,9 @@ public:
         unpacker(bb, params...);
 
         ubyte* tlv_p = tlv.data();
-        uint tlv_len = (uint)tlv.size();
+        size_t tlv_len = tlv.size();
         ubyte* en;
-        uint en_len;
+        size_t en_len;
 
         if (crypt == CryptType::NONE)
         {
@@ -263,7 +263,7 @@ public:
         bb.put<string>(method, false, true, 2);
         Bytes::write<int>((int)(buffer.size() - 2 - 4 + en_len + 2), buffer, 2);
 
-        for (int i = 0; i < en_len; i++)
+        for (size_t i = 0; i < en_len; i++)
         {
             buffer.push_back(en[i]);
         }
@@ -280,8 +280,8 @@ public:
         }
     }
 
-    static uint parseInfo(ubyte* buffer, uint len, string& name, string& method);
-    static void parse(vector<Any>& result, ubyte* buffer, uint len, ushort magic, CryptType crypt, const string& key, const RSAKeyInfo& rsaKey, string& name, string& method);
+    static size_t parseInfo(ubyte* buffer, size_t len, string& name, string& method);
+    static void parse(vector<Any>& result, ubyte* buffer, size_t len, ushort magic, CryptType crypt, const string& key, const RSAKeyInfo& rsaKey, string& name, string& method);
 };
 
 template <>

@@ -6,5 +6,5 @@
 
 using namespace std;
 
-uint strToByte_hex(const string&, ubyte*, uint = -1);
-string byteToStr_hex(ubyte*, uint);
+size_t strToByte_hex(const string&, ubyte*, size_t = 0);
+string byteToStr_hex(ubyte*, size_t);

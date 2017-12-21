@@ -13,7 +13,7 @@ void BufferBuilder::setBuffer(vector<ubyte>* buffer)
     this->buffer = buffer;
 }
 
-uint Packet::parseInfo(ubyte* buffer, uint len, string& name, string& method)
+size_t Packet::parseInfo(ubyte* buffer, size_t len, string& name, string& method)
 {
     assert(len >= 10);
 
@@ -34,7 +34,7 @@ uint Packet::parseInfo(ubyte* buffer, uint len, string& name, string& method)
     return 10 + len1 + len2;
 }
 
-void Packet::parse(vector<Any>& result, ubyte* buffer, uint len, ushort magic, CryptType crypt, const string& key, const RSAKeyInfo& rsaKey, string& name, string& method)
+void Packet::parse(vector<Any>& result, ubyte* buffer, size_t len, ushort magic, CryptType crypt, const string& key, const RSAKeyInfo& rsaKey, string& name, string& method)
 {
     assert(len >= 10);
 
@@ -62,40 +62,40 @@ void Packet::parse(vector<Any>& result, ubyte* buffer, uint len, ushort magic, C
         }
     }
 
-    uint tlv_pos = parseInfo(buffer, len, name, method);
+    size_t tlv_pos = parseInfo(buffer, len, name, method);
 
     ubyte* de;
-    uint de_len;
+    size_t de_len;
 
     if (crypt == CryptType::NONE)
     {
         de = buffer + tlv_pos;
-        de_len = (int)(len - tlv_pos - 2);
+        de_len = len - tlv_pos - 2;
     }
     else if (crypt == CryptType::XTEA)
     {
         int* xtea_key = (int*)key.c_str();
         de = new ubyte[(int)(len - tlv_pos - 2)];
-        de_len = XTEAUtils::decrypt(buffer + tlv_pos, (int)(len - tlv_pos - 2), xtea_key, de);
+        de_len = XTEAUtils::decrypt(buffer + tlv_pos, len - tlv_pos - 2, xtea_key, de);
     }
     else if (crypt == CryptType::AES)
     {
         de = new ubyte[(int)(len - tlv_pos - 2)];
-        de_len = AESUtils::decrypt<AES128>(buffer + tlv_pos, (int)(len - tlv_pos - 2), key, de);
+        de_len = AESUtils::decrypt<AES128>(buffer + tlv_pos, len - tlv_pos - 2, key, de);
     }
     else if (crypt == CryptType::RSA)
     {
         de = new ubyte[(int)(len - tlv_pos - 2) * 2];
-        de_len = RSA::decrypt(rsaKey, buffer + tlv_pos, (int)(len - tlv_pos - 2), de);
+        de_len = RSA::decrypt(rsaKey, buffer + tlv_pos, len - tlv_pos - 2, de);
     }
     else
     {   // CryptType::RSA_XTEA_MIXIN
         de = new ubyte[(int)(len - tlv_pos - 2) * 2];
-        de_len = RSA::decrypt(rsaKey, buffer + tlv_pos, (int)(len - tlv_pos - 2), de, true);
+        de_len = RSA::decrypt(rsaKey, buffer + tlv_pos, len - tlv_pos - 2, de, true);
     }
 
     result.clear();
-    uint pos = 0;
+    size_t pos = 0;
     while (pos < de_len)
     {
         ubyte typeId = de[pos];
@@ -164,7 +164,7 @@ void Packet::parse(vector<Any>& result, ubyte* buffer, uint len, ushort magic, C
         }
         else if (typeId == TypeID<string>())
         {
-            int temp = Bytes::peek<int>(de, pos);
+            size_t temp = Bytes::peek<int>(de, pos);
             pos += 4;
             any = Bytes::peek<string>(de, pos, temp);
             pos += temp;

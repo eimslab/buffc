@@ -39,11 +39,11 @@ public:
         Packet::build(buffer, _magic, _crypt, _key, _rsaKey, "", method, params...);
     }
 
-    static void getMessageInfo(ubyte* buffer, uint len, string& name, string& method);
-    static void deserialize(vector<Any>& result, ubyte* buffer, uint len, string& name, string& method);
+    static void getMessageInfo(ubyte* buffer, size_t len, string& name, string& method);
+    static void deserialize(vector<Any>& result, ubyte* buffer, size_t len, string& name, string& method);
 
     template <class T>
-    static typename enable_if<is_base_of<Message, T>::value, T>::type deserialize(ubyte* buffer, uint len)
+    static typename enable_if<is_base_of<Message, T>::value, T>::type deserialize(ubyte* buffer, size_t len)
     {
         string method;
 
@@ -51,7 +51,7 @@ public:
     }
 
     template <class T>
-    static typename enable_if<is_base_of<Message, T>::value, T>::type deserialize(ubyte* buffer, uint len, string& method)
+    static typename enable_if<is_base_of<Message, T>::value, T>::type deserialize(ubyte* buffer, size_t len, string& method)
     {
         string name;
         vector<Any> params;

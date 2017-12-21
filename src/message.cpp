@@ -29,12 +29,12 @@ void Message::settings(ushort magic, RSAKeyInfo rsaKey, bool mixinXteaMode)
     _rsaKey = rsaKey;
 }
 
-void Message::getMessageInfo(ubyte* buffer, uint len, string& name, string& method)
+void Message::getMessageInfo(ubyte* buffer, size_t len, string& name, string& method)
 {
     Packet::parseInfo(buffer, len, name, method);
 }
 
-void Message::deserialize(vector<Any>& result, ubyte* buffer, uint len, string& name, string& method)
+void Message::deserialize(vector<Any>& result, ubyte* buffer, size_t len, string& name, string& method)
 {
     Packet::parse(result, buffer, len, _magic, _crypt, _key, _rsaKey, name, method);
 }

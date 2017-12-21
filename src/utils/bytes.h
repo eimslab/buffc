@@ -17,20 +17,16 @@ class Bytes
 {
 public:
     template <typename T>
-    static uint write(const T& value, vector<ubyte>& buffer, int offset)
+    static size_t write(const T& value, vector<ubyte>& buffer, size_t offset)
     {
-        if (offset < 0)
-        {
-            offset = (int)buffer.size();
-        }
-        while (buffer.size() < offset + sizeof(T))
+        while (buffer.size() < (offset + sizeof(T)))
         {
             buffer.push_back((ubyte)0);
         }
 
         ubyte* p = (ubyte*)&value;
 
-        uint i = 0;
+        size_t i = 0;
         while (i < sizeof(T))
         {
             buffer[offset + sizeof(T) - i - 1] = p[i];
@@ -41,17 +37,12 @@ public:
     }
 
     template <typename T>
-    static T peek(ubyte* buffer, int offset, int count = -1)
+    static T peek(ubyte* buffer, size_t offset, size_t count = 0)
     {
-        if (offset < 0)
-        {
-            offset = 0;
-        }
-
         T t;
         ubyte* p = (ubyte*)&t;
 
-        uint i = 0;
+        size_t i = 0;
         while (i < sizeof(T))
         {
             p[i] = buffer[offset + sizeof(T) - i - 1];
@@ -63,13 +54,8 @@ public:
 };
 
 template <>
-inline uint Bytes::write<string>(const string& value, vector<ubyte>& buffer, int offset)
+inline size_t Bytes::write<string>(const string& value, vector<ubyte>& buffer, size_t offset)
 {
-    if (offset < 0)
-    {
-        offset = (int)buffer.size();
-    }
-
     while (buffer.size() < offset + value.length())
     {
         buffer.push_back((ubyte)0);
@@ -77,7 +63,7 @@ inline uint Bytes::write<string>(const string& value, vector<ubyte>& buffer, int
 
     ubyte* p = (ubyte*)value.c_str();
 
-    uint i = 0;
+    size_t i = 0;
     while (i < value.length())
     {
         buffer[offset + i] = p[i];
@@ -88,16 +74,11 @@ inline uint Bytes::write<string>(const string& value, vector<ubyte>& buffer, int
 }
 
 template <>
-inline string Bytes::peek<string>(ubyte* buffer, int offset, int count)
+inline string Bytes::peek<string>(ubyte* buffer, size_t offset, size_t count)
 {
-    if (offset < 0)
-    {
-        offset = 0;
-    }
-
     ubyte* p = new ubyte[count];
 
-    int i = 0;
+    size_t i = 0;
     while (i < count)
     {
         p[i] = buffer[offset + i];
@@ -108,13 +89,9 @@ inline string Bytes::peek<string>(ubyte* buffer, int offset, int count)
 }
 
 template <>
-inline uint Bytes::write<long>(const long& value, vector<ubyte>& buffer, int offset)
+inline size_t Bytes::write<long>(const long& value, vector<ubyte>& buffer, size_t offset)
 {
     int64 v = value;
-    if (offset < 0)
-    {
-        offset = (int)buffer.size();
-    }
 
     while (buffer.size() < offset + sizeof(int64))
     {
@@ -123,7 +100,7 @@ inline uint Bytes::write<long>(const long& value, vector<ubyte>& buffer, int off
 
     ubyte* p = (ubyte*)&v;
 
-    uint i = 0;
+    size_t i = 0;
     while (i < sizeof(int64))
     {
         buffer[offset + sizeof(int64) - i - 1] = p[i];
@@ -134,17 +111,12 @@ inline uint Bytes::write<long>(const long& value, vector<ubyte>& buffer, int off
 }
 
 template <>
-inline long Bytes::peek<long>(ubyte* buffer, int offset, int count)
+inline long Bytes::peek<long>(ubyte* buffer, size_t offset, size_t count)
 {
-    if (offset < 0)
-    {
-        offset = 0;
-    }
-
     int64 t;
     ubyte* p = (ubyte*)&t;
 
-    uint i = 0;
+    size_t i = 0;
     while (i < sizeof(int64))
     {
         p[i] = buffer[offset + sizeof(int64) - i - 1];
@@ -155,13 +127,9 @@ inline long Bytes::peek<long>(ubyte* buffer, int offset, int count)
 }
 
 template <>
-inline uint Bytes::write<unsigned long>(const unsigned long& value, vector<ubyte>& buffer, int offset)
+inline size_t Bytes::write<unsigned long>(const unsigned long& value, vector<ubyte>& buffer, size_t offset)
 {
     uint64 v = value;
-    if (offset < 0)
-    {
-        offset = (int)buffer.size();
-    }
 
     while (buffer.size() < offset + sizeof(uint64))
     {
@@ -170,7 +138,7 @@ inline uint Bytes::write<unsigned long>(const unsigned long& value, vector<ubyte
 
     ubyte* p = (ubyte*)&v;
 
-    uint i = 0;
+    size_t i = 0;
     while (i < sizeof(uint64))
     {
         buffer[offset + sizeof(uint64) - i - 1] = p[i];
@@ -181,17 +149,12 @@ inline uint Bytes::write<unsigned long>(const unsigned long& value, vector<ubyte
 }
 
 template <>
-inline unsigned long Bytes::peek<unsigned long>(ubyte* buffer, int offset, int count)
+inline unsigned long Bytes::peek<unsigned long>(ubyte* buffer, size_t offset, size_t count)
 {
-    if (offset < 0)
-    {
-        offset = 0;
-    }
-
     uint64 t;
     ubyte* p = (ubyte*)&t;
 
-    uint i = 0;
+    size_t i = 0;
     while (i < sizeof(uint64))
     {
         p[i] = buffer[offset + sizeof(uint64) - i - 1];
