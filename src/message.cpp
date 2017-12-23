@@ -6,7 +6,7 @@ namespace buffer
 ushort       _magic;
 CryptType    _crypt;
 string       _key;
-RSAKeyInfo   _rsaKey(BigInt(0), BigInt(0));
+RSAKeyInfo   _rsaKey;
 
 void Message::settings(ushort magic, CryptType crypt, string key)
 {
