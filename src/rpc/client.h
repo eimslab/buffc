@@ -23,7 +23,7 @@ public:
     template <class T, typename... Params>
     static typename enable_if<is_base_of<Message, T>::value, T>::type call(string method, Params... params)
     {
-        assert(Handler != null);        // TcpRequestHandler must be bound.
+        assert(Handler != NULL);        // TcpRequestHandler must be bound.
         assert(method.length() > 0);    // Paramter method must be set.
 
         vector<ubyte> request;
@@ -61,7 +61,7 @@ public:
                               is_same<bool,                 T>::value ||
                               is_same<string,               T>::value, T>::type call(string method, Params... params)
     {
-        assert(Handler != null);        // TcpRequestHandler must be bound.
+        assert(Handler != NULL);        // TcpRequestHandler must be bound.
         assert(method.length() > 0);    // Paramter method must be set.
 
         vector<ubyte> request;
