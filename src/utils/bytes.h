@@ -85,7 +85,10 @@ inline string Bytes::peek<string>(ubyte* buffer, size_t offset, size_t count)
         i++;
     }
 
-    return string((char*)p, count);
+    string ret((char*)p, 0, count);
+    delete[] p;
+
+    return ret;
 }
 
 template <>
