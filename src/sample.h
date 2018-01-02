@@ -9,7 +9,7 @@
 //class Sample : Message
 //{
 //public:
-//    string _className = "Sample";
+//    string _className() { return "Sample"; }
 //
 //    int32   id;
 //    string  name;

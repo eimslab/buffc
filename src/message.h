@@ -64,7 +64,7 @@ public:
         }
 
         T message;
-        if (message._className != name)
+        if (message._className() != name)
         {
             cout << "The type " << name << " of the incoming template is incorrect." << endl;
             throw;
