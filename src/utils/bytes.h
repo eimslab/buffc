@@ -85,7 +85,7 @@ inline string Bytes::peek<string>(ubyte* buffer, size_t offset, size_t count)
         i++;
     }
 
-    string ret((char*)p, 0, count);
+    string ret((char*)p, count);
     delete[] p;
 
     return ret;

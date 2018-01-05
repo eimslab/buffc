@@ -30,7 +30,7 @@ string byteToStr_hex(ubyte* input, size_t len)
         sprintf(t + i * 2, "%02X", input[i]);
     }
 
-    string ret(t, 0, len * 2);
+    string ret(t, len * 2);
     delete[] t;
 
     return ret;
