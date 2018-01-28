@@ -245,12 +245,12 @@ public:
         }
         else if (crypt == CryptType::RSA)
         {
-            en = new ubyte[tlv_len * 2];
+            en = new ubyte[tlv_len * 2 + (rsaKey.modulus.dataLength << 2)];
             en_len = RSA::encrypt(rsaKey, tlv_p, tlv_len, en);
         }
         else
         {   //  CryptType::RSA_XTEA_MIXIN
-            en = new ubyte[tlv_len * 2];
+            en = new ubyte[tlv_len * 2 + (rsaKey.modulus.dataLength << 2)];
             en_len = RSA::encrypt(rsaKey, tlv_p, tlv_len, en, true);
         }
 
