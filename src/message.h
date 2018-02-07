@@ -13,6 +13,7 @@ class Message
 {
 
 protected:
+
     typedef char    int8;
     typedef ubyte   uint8;
     typedef short   int16;
@@ -29,6 +30,8 @@ protected:
     //string
 
 public:
+
+    virtual ~Message();
 
     static void settings(ushort magic, CryptType crypt = CryptType::NONE, string key = "");
     static void settings(ushort magic, RSAKeyInfo rsaKey, bool mixinXteaMode = false);
