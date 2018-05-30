@@ -13,10 +13,10 @@
 #include "utils/any.h"
 
 using namespace std;
-using namespace cryption;
-using namespace cryption::tea::xtea;
-using namespace cryption::rsa;
-using namespace cryption::aes;
+using namespace crypto;
+using namespace crypto::tea::xtea;
+using namespace crypto::rsa;
+using namespace crypto::aes;
 
 using namespace buffer::utils;
 
