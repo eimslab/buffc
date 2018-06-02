@@ -8,6 +8,9 @@ https://github.com/shove70/buffer
 this project dependencies:
 https://github.com/shove70/crypt (C++)
 
+! This project has been included in the shove.c project, and subsequent updates will only be included in the shove.c project:
+https://github.com/shove70/shove.c
+
 
 ### Quick Start:
 
